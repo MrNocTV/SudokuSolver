@@ -40,11 +40,12 @@ def solve_image_sudoku(path):
                 cv2.imshow('solved_board', board)
                 print_board(grid)
                 print(grid == orgi_grid)
-                break 
+                return True 
         board = rotate(board)
         numbers = extract_number(copy.copy(board))
     else:
         print("Cant solve")
+        return False
 
 def draw_back(grid, original_grid, board):
     for i in range(9):
@@ -59,11 +60,16 @@ def draw_back(grid, original_grid, board):
 
 if __name__ == '__main__':
     TEST_FOLDER = '../images/test-images'
+    success, failed = 0, 0
     for file_name in os.listdir(TEST_FOLDER):
         print(file_name)
         file_path = os.path.join(TEST_FOLDER, file_name)
-        solve_image_sudoku(file_path)
+        if solve_image_sudoku(file_path):
+            success += 1
+        else:
+            failed += 1
         cv2.waitKey()
+    print("Sucess: {}\nFailed: {}".format(success, failed))
     
     # while True:
     #     if cv2.waitKey(1) == 27:
